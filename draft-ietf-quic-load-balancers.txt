@@ -5,8 +5,8 @@
 QUIC                                                             M. Duke
 Internet-Draft                                         F5 Networks, Inc.
 Intended status: Standards Track                                N. Banks
-Expires: 5 October 2021                                        Microsoft
-                                                            3 April 2021
+Expires: 23 October 2021                                       Microsoft
+                                                           21 April 2021
 
 
             QUIC-LB: Generating Routable QUIC Connection IDs
@@ -53,12 +53,12 @@ Status of This Memo
 
 
 
-Duke & Banks             Expires 5 October 2021                 [Page 1]
+Duke & Banks             Expires 23 October 2021                [Page 1]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
 
-   This Internet-Draft will expire on 5 October 2021.
+   This Internet-Draft will expire on 23 October 2021.
 
 Copyright Notice
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Duke & Banks             Expires 5 October 2021                 [Page 2]
+Duke & Banks             Expires 23 October 2021                [Page 2]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -137,44 +137,44 @@ Internet-Draft                   QUIC-LB                      April 2021
      11.2.  Attackers between the load balancer and server . . . . .  31
      11.3.  Multiple Configuration IDs . . . . . . . . . . . . . . .  31
      11.4.  Limited configuration scope  . . . . . . . . . . . . . .  32
-     11.5.  Stateless Reset Oracle . . . . . . . . . . . . . . . . .  32
-     11.6.  Connection ID Entropy  . . . . . . . . . . . . . . . . .  32
+     11.5.  Stateless Reset Oracle . . . . . . . . . . . . . . . . .  33
+     11.6.  Connection ID Entropy  . . . . . . . . . . . . . . . . .  33
      11.7.  Shared-State Retry Keys  . . . . . . . . . . . . . . . .  33
    12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  34
    13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  34
      13.1.  Normative References . . . . . . . . . . . . . . . . . .  34
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  34
-   Appendix A.  QUIC-LB YANG Model . . . . . . . . . . . . . . . . .  35
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  35
+   Appendix A.  QUIC-LB YANG Model . . . . . . . . . . . . . . . . .  36
      A.1.  Tree Diagram  . . . . . . . . . . . . . . . . . . . . . .  40
-   Appendix B.  Load Balancer Test Vectors . . . . . . . . . . . . .  40
-     B.1.  Plaintext Connection ID Algorithm . . . . . . . . . . . .  41
-     B.2.  Stream Cipher Connection ID Algorithm . . . . . . . . . .  42
-     B.3.  Block Cipher Connection ID Algorithm  . . . . . . . . . .  43
-   Appendix C.  Acknowledgments  . . . . . . . . . . . . . . . . . .  45
-   Appendix D.  Change Log . . . . . . . . . . . . . . . . . . . . .  45
-     D.1.  since draft-ietf-quic-load-balancers-06 . . . . . . . . .  45
-     D.2.  since draft-ietf-quic-load-balancers-05 . . . . . . . . .  45
-     D.3.  since draft-ietf-quic-load-balancers-04 . . . . . . . . .  45
-     D.4.  since-draft-ietf-quic-load-balancers-03 . . . . . . . . .  46
-     D.5.  since-draft-ietf-quic-load-balancers-02 . . . . . . . . .  46
-     D.6.  since-draft-ietf-quic-load-balancers-01 . . . . . . . . .  46
-     D.7.  since-draft-ietf-quic-load-balancers-00 . . . . . . . . .  46
-     D.8.  Since draft-duke-quic-load-balancers-06 . . . . . . . . .  46
-     D.9.  Since draft-duke-quic-load-balancers-05 . . . . . . . . .  46
-     D.10. Since draft-duke-quic-load-balancers-04 . . . . . . . . .  47
+   Appendix B.  Load Balancer Test Vectors . . . . . . . . . . . . .  41
+     B.1.  Plaintext Connection ID Algorithm . . . . . . . . . . . .  42
+     B.2.  Stream Cipher Connection ID Algorithm . . . . . . . . . .  43
+     B.3.  Block Cipher Connection ID Algorithm  . . . . . . . . . .  44
+   Appendix C.  Acknowledgments  . . . . . . . . . . . . . . . . . .  46
+   Appendix D.  Change Log . . . . . . . . . . . . . . . . . . . . .  46
+     D.1.  since draft-ietf-quic-load-balancers-06 . . . . . . . . .  46
+     D.2.  since draft-ietf-quic-load-balancers-05 . . . . . . . . .  46
+     D.3.  since draft-ietf-quic-load-balancers-04 . . . . . . . . .  46
+     D.4.  since-draft-ietf-quic-load-balancers-03 . . . . . . . . .  47
+     D.5.  since-draft-ietf-quic-load-balancers-02 . . . . . . . . .  47
+     D.6.  since-draft-ietf-quic-load-balancers-01 . . . . . . . . .  47
+     D.7.  since-draft-ietf-quic-load-balancers-00 . . . . . . . . .  47
+     D.8.  Since draft-duke-quic-load-balancers-06 . . . . . . . . .  47
+     D.9.  Since draft-duke-quic-load-balancers-05 . . . . . . . . .  47
+     D.10. Since draft-duke-quic-load-balancers-04 . . . . . . . . .  48
 
 
 
-Duke & Banks             Expires 5 October 2021                 [Page 3]
+Duke & Banks             Expires 23 October 2021                [Page 3]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
 
-     D.11. Since draft-duke-quic-load-balancers-03 . . . . . . . . .  47
-     D.12. Since draft-duke-quic-load-balancers-02 . . . . . . . . .  47
-     D.13. Since draft-duke-quic-load-balancers-01 . . . . . . . . .  47
-     D.14. Since draft-duke-quic-load-balancers-00 . . . . . . . . .  47
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  47
+     D.11. Since draft-duke-quic-load-balancers-03 . . . . . . . . .  48
+     D.12. Since draft-duke-quic-load-balancers-02 . . . . . . . . .  48
+     D.13. Since draft-duke-quic-load-balancers-01 . . . . . . . . .  48
+     D.14. Since draft-duke-quic-load-balancers-00 . . . . . . . . .  48
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  49
 
 1.  Introduction
 
@@ -221,7 +221,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                 [Page 4]
+Duke & Banks             Expires 23 October 2021                [Page 4]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -277,7 +277,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                 [Page 5]
+Duke & Banks             Expires 23 October 2021                [Page 5]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -333,7 +333,7 @@ Example Structure {
 
 
 
-Duke & Banks             Expires 5 October 2021                 [Page 6]
+Duke & Banks             Expires 23 October 2021                [Page 6]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -389,7 +389,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                 [Page 7]
+Duke & Banks             Expires 23 October 2021                [Page 7]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -445,7 +445,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                 [Page 8]
+Duke & Banks             Expires 23 October 2021                [Page 8]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -501,7 +501,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                 [Page 9]
+Duke & Banks             Expires 23 October 2021                [Page 9]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -557,7 +557,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 10]
+Duke & Banks             Expires 23 October 2021               [Page 10]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -613,7 +613,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 11]
+Duke & Banks             Expires 23 October 2021               [Page 11]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -669,7 +669,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 12]
+Duke & Banks             Expires 23 October 2021               [Page 12]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -725,7 +725,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 13]
+Duke & Banks             Expires 23 October 2021               [Page 13]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -781,7 +781,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 14]
+Duke & Banks             Expires 23 October 2021               [Page 14]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -837,7 +837,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 15]
+Duke & Banks             Expires 23 October 2021               [Page 15]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -893,7 +893,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 16]
+Duke & Banks             Expires 23 October 2021               [Page 16]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -949,7 +949,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 17]
+Duke & Banks             Expires 23 October 2021               [Page 17]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -1005,7 +1005,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 18]
+Duke & Banks             Expires 23 October 2021               [Page 18]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -1061,7 +1061,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 19]
+Duke & Banks             Expires 23 October 2021               [Page 19]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -1117,7 +1117,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 20]
+Duke & Banks             Expires 23 October 2021               [Page 20]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -1173,7 +1173,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 21]
+Duke & Banks             Expires 23 October 2021               [Page 21]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -1229,7 +1229,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 22]
+Duke & Banks             Expires 23 October 2021               [Page 22]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -1285,7 +1285,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 23]
+Duke & Banks             Expires 23 October 2021               [Page 23]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -1341,7 +1341,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 24]
+Duke & Banks             Expires 23 October 2021               [Page 24]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -1397,7 +1397,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 25]
+Duke & Banks             Expires 23 October 2021               [Page 25]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -1453,7 +1453,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 26]
+Duke & Banks             Expires 23 October 2021               [Page 26]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -1509,7 +1509,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 27]
+Duke & Banks             Expires 23 October 2021               [Page 27]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -1565,7 +1565,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 28]
+Duke & Banks             Expires 23 October 2021               [Page 28]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -1621,7 +1621,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 29]
+Duke & Banks             Expires 23 October 2021               [Page 29]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -1677,7 +1677,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 30]
+Duke & Banks             Expires 23 October 2021               [Page 30]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -1733,7 +1733,7 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 31]
+Duke & Banks             Expires 23 October 2021               [Page 31]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -1748,13 +1748,51 @@ Internet-Draft                   QUIC-LB                      April 2021
 
    To avoid this, the configuration agent SHOULD issue QUIC-LB
    configurations to mutually distrustful servers that have different
-   keys for encryption algorithms.  The load balancers can distinguish
-   these configurations by external IP address, or by assigning
-   different values to the config rotation bits (Section 3.1).  Note
-   that either solution has a privacy impact; see Section 11.3.
+   keys for encryption algorithms.  In many cases, the load balancers
+   can distinguish these configurations by external IP address.
 
-   These techniques are not necessary for the plaintext algorithm, as it
-   does not attempt to conceal the server ID.
+   However, assigning multiple entities to an IP address is
+   complimentary with concealing DNS requests (e.g., DoH [RFC8484]) and
+   the TLS Server Name Indicator (SNI) ([I-D.ietf-tls-esni]) to obscure
+   the ultimate destination of traffic.  While the load balancer's
+   fallback algorithm (Section 4.2) can use the SNI to make a routing
+   decision on the first packet, there are three ways to route
+   subsequent packets:
+
+   *  all co-tenants can use the same QUIC-LB configuration, leaking the
+      server mapping to each other as described above;
+
+   *  co-tenants can be issued one of up to three configurations
+      distinguished by the config rotation bits (Section 3.1), exposing
+      information about the target domain to the entire network; or
+
+   *  tenants can use 4-tuple routing in their CIDs (in which case they
+      SHOULD disable migration in their connections), which neutralizes
+      the value of QUIC-LB but preserves privacy.
+
+   When configuring QUIC-LB, administrators must evaluate the privacy
+   tradeoff considering the relative value of each of these properties,
+   given the trust model between tenants, the presence of methods to
+   obscure the domain name, and value of address migration in the tenant
+   use cases.
+
+   As the plaintext algorithm makes no attempt to conceal the server
+   mapping, these deployments SHOULD simply use a common configuration.
+
+
+
+
+
+
+
+
+
+
+
+Duke & Banks             Expires 23 October 2021               [Page 32]
+
+Internet-Draft                   QUIC-LB                      April 2021
+
 
 11.5.  Stateless Reset Oracle
 
@@ -1782,18 +1820,6 @@ Internet-Draft                   QUIC-LB                      April 2021
    zero.  Whether or not it implements this method, the server MUST NOT
    reuse a nonce until it switches to a configuration with new keys.
 
-
-
-
-
-
-
-
-Duke & Banks             Expires 5 October 2021                [Page 32]
-
-Internet-Draft                   QUIC-LB                      April 2021
-
-
    Configuration agents SHOULD implement an out-of-band method to
    discover when servers are in danger of exhausting their nonce space,
    and SHOULD respond by issuing a new configuration.  A server that has
@@ -1814,6 +1840,15 @@ Internet-Draft                   QUIC-LB                      April 2021
    *  Attackers may be able to retrieve the key if they capture a
       sufficently large number of retry tokens encrypted with a given
       key.
+
+
+
+
+
+Duke & Banks             Expires 23 October 2021               [Page 33]
+
+Internet-Draft                   QUIC-LB                      April 2021
+
 
    *  Confidentiality of the token data will fail if separate tokens
       reuse the same 96 bit unique token number and the same key.
@@ -1840,16 +1875,6 @@ Internet-Draft                   QUIC-LB                      April 2021
    if fewer than 2^40 tokens are generated with a single key, the risk
    of collisions is lower than 0.001%.
 
-
-
-
-
-
-Duke & Banks             Expires 5 October 2021                [Page 33]
-
-Internet-Draft                   QUIC-LB                      April 2021
-
-
 12.  IANA Considerations
 
    There are no IANA requirements.
@@ -1872,6 +1897,15 @@ Internet-Draft                   QUIC-LB                      April 2021
               <https://www.ietf.org/archive/id/draft-ietf-quic-
               transport-34.txt>.
 
+
+
+
+
+Duke & Banks             Expires 23 October 2021               [Page 34]
+
+Internet-Draft                   QUIC-LB                      April 2021
+
+
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
               <https://www.rfc-editor.org/info/rfc8446>.
@@ -1882,6 +1916,13 @@ Internet-Draft                   QUIC-LB                      April 2021
               V1_chap04.html#tag_04_16>.
 
 13.2.  Informative References
+
+   [I-D.ietf-tls-esni]
+              Rescorla, E., Oku, K., Sullivan, N., and C. A. Wood, "TLS
+              Encrypted Client Hello", Work in Progress, Internet-Draft,
+              draft-ietf-tls-esni-10, 8 March 2021,
+              <https://www.ietf.org/archive/id/draft-ietf-tls-esni-
+              10.txt>.
 
    [QUIC-TLS] Thomson, M. and S. Turner, "Using TLS to Secure QUIC",
               Work in Progress, Internet-Draft, draft-ietf-quic-tls-34,
@@ -1898,14 +1939,6 @@ Internet-Draft                   QUIC-LB                      April 2021
               DOI 10.17487/RFC6020, October 2010,
               <https://www.rfc-editor.org/info/rfc6020>.
 
-
-
-
-Duke & Banks             Expires 5 October 2021                [Page 34]
-
-Internet-Draft                   QUIC-LB                      April 2021
-
-
    [RFC7696]  Housley, R., "Guidelines for Cryptographic Algorithm
               Agility and Selecting Mandatory-to-Implement Algorithms",
               BCP 201, RFC 7696, DOI 10.17487/RFC7696, November 2015,
@@ -1914,6 +1947,20 @@ Internet-Draft                   QUIC-LB                      April 2021
    [RFC8340]  Bjorklund, M. and L. Berger, Ed., "YANG Tree Diagrams",
               BCP 215, RFC 8340, DOI 10.17487/RFC8340, March 2018,
               <https://www.rfc-editor.org/info/rfc8340>.
+
+   [RFC8484]  Hoffman, P. and P. McManus, "DNS Queries over HTTPS
+              (DoH)", RFC 8484, DOI 10.17487/RFC8484, October 2018,
+              <https://www.rfc-editor.org/info/rfc8484>.
+
+
+
+
+
+
+Duke & Banks             Expires 23 October 2021               [Page 35]
+
+Internet-Draft                   QUIC-LB                      April 2021
+
 
 Appendix A.  QUIC-LB YANG Model
 
@@ -1954,14 +2001,6 @@ module ietf-quic-lb {
      Copyright (c) 2021 IETF Trust and the persons identified as
      authors of the code.  All rights reserved.
 
-
-
-
-Duke & Banks             Expires 5 October 2021                [Page 35]
-
-Internet-Draft                   QUIC-LB                      April 2021
-
-
      Redistribution and use in source and binary forms, with or
      without modification, is permitted pursuant to, and subject to
      the license terms contained in, the Simplified BSD License set
@@ -1971,6 +2010,14 @@ Internet-Draft                   QUIC-LB                      April 2021
 
      This version of this YANG module is part of RFC XXXX
      (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
+
+
+
+Duke & Banks             Expires 23 October 2021               [Page 36]
+
+Internet-Draft                   QUIC-LB                      April 2021
+
+
      for full legal notices.
 
      The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
@@ -2010,14 +2057,6 @@ Internet-Draft                   QUIC-LB                      April 2021
           range "0..2";
         }
         mandatory true;
-
-
-
-Duke & Banks             Expires 5 October 2021                [Page 36]
-
-Internet-Draft                   QUIC-LB                      April 2021
-
-
         description
           "Identifier for this CID configuration.";
       }
@@ -2027,6 +2066,14 @@ Internet-Draft                   QUIC-LB                      April 2021
         default false;
         description
           "If true, the six least significant bits of the first CID
+
+
+
+Duke & Banks             Expires 23 October 2021               [Page 37]
+
+Internet-Draft                   QUIC-LB                      April 2021
+
+
            octet encode the CID length minus one.";
       }
 
@@ -2066,14 +2113,6 @@ Internet-Draft                   QUIC-LB                      April 2021
         must '(../lb-timeout and . <= 7) or
                (not(../lb-timeout) and
                 (not(../cid-key) and . <= 16) or
-
-
-
-Duke & Banks             Expires 5 October 2021                [Page 37]
-
-Internet-Draft                   QUIC-LB                      April 2021
-
-
                 ((../nonce-length) and . <= (19 - ../nonce-length)) or
                 ((../cid-key) and not(../nonce-length) and . <= 12))' {
           error-message
@@ -2083,6 +2122,14 @@ Internet-Draft                   QUIC-LB                      April 2021
         mandatory true;
         description
           "Length (in octets) of a server ID. Further range-limited
+
+
+
+Duke & Banks             Expires 23 October 2021               [Page 38]
+
+Internet-Draft                   QUIC-LB                      April 2021
+
+
            by sid-allocation, cid-key, and nonce-length.";
       }
 
@@ -2122,14 +2169,6 @@ Internet-Draft                   QUIC-LB                      April 2021
       }
 
       leaf unsupported-version-default {
-
-
-
-Duke & Banks             Expires 5 October 2021                [Page 38]
-
-Internet-Draft                   QUIC-LB                      April 2021
-
-
         type enumeration {
           enum allow {
             description "Unsupported versions admitted by default";
@@ -2139,6 +2178,14 @@ Internet-Draft                   QUIC-LB                      April 2021
           }
         }
         default allow;
+
+
+
+Duke & Banks             Expires 23 October 2021               [Page 39]
+
+Internet-Draft                   QUIC-LB                      April 2021
+
+
         description
           "Are unsupported versions not in version-exceptions allowed
            or denied?";
@@ -2178,14 +2225,6 @@ Internet-Draft                   QUIC-LB                      April 2021
           description
             "8-byte IV to encrypt the token, encoded in 23 bytes";
         }
-
-
-
-Duke & Banks             Expires 5 October 2021                [Page 39]
-
-Internet-Draft                   QUIC-LB                      April 2021
-
-
       }
     }
   }
@@ -2194,6 +2233,14 @@ Internet-Draft                   QUIC-LB                      April 2021
 A.1.  Tree Diagram
 
    This summary of the YANG model uses the notation in [RFC8340].
+
+
+
+
+Duke & Banks             Expires 23 October 2021               [Page 40]
+
+Internet-Draft                   QUIC-LB                      April 2021
+
 
  module: ietf-quic-lb
    +--rw quic-lb
@@ -2235,13 +2282,6 @@ Appendix B.  Load Balancer Test Vectors
 
    This section uses the following abbreviations:
 
-
-
-Duke & Banks             Expires 5 October 2021                [Page 40]
-
-Internet-Draft                   QUIC-LB                      April 2021
-
-
    cid      Connection ID
    cr_bits  Config Rotation Bits
    LB       Load Balancer
@@ -2249,54 +2289,19 @@ Internet-Draft                   QUIC-LB                      April 2021
    sid_len  Server ID length
    su       Server Use Bytes
 
+
+
+
+
+Duke & Banks             Expires 23 October 2021               [Page 41]
+
+Internet-Draft                   QUIC-LB                      April 2021
+
+
    All values except length_self_encoding and sid_len are expressed in
    hexidecimal format.
 
 B.1.  Plaintext Connection ID Algorithm
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Duke & Banks             Expires 5 October 2021                [Page 41]
-
-Internet-Draft                   QUIC-LB                      April 2021
-
 
    LB configuration: cr_bits 0x0 length_self_encoding: y sid_len 1
 
@@ -2338,6 +2343,17 @@ Internet-Draft                   QUIC-LB                      April 2021
    cid 08fbbca64c26756840 sid fbbca64c26 su 756840
    cid 09e7737c495b93894e34 sid e7737c495b su 93894e34
 
+
+
+
+
+
+
+Duke & Banks             Expires 23 October 2021               [Page 42]
+
+Internet-Draft                   QUIC-LB                      April 2021
+
+
 B.2.  Stream Cipher Connection ID Algorithm
 
    In each case below, the server is using a plain text nonce value of
@@ -2349,7 +2365,47 @@ B.2.  Stream Cipher Connection ID Algorithm
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 42]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Duke & Banks             Expires 23 October 2021               [Page 43]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -2405,7 +2461,7 @@ B.3.  Block Cipher Connection ID Algorithm
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 43]
+Duke & Banks             Expires 23 October 2021               [Page 44]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -2461,7 +2517,7 @@ cid 1024412bfe25f4547510204bdda6143814 sid 8a8dd3d036 su 4b12933a135e5eaaebc6fd
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 44]
+Duke & Banks             Expires 23 October 2021               [Page 45]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
@@ -2486,6 +2542,8 @@ D.1.  since draft-ietf-quic-load-balancers-06
    *  Changed "non-compliant" to "unroutable"
 
    *  Changed "arbitrary" algorithm to "fallback"
+
+   *  Revised security considerations for mistrustful tenants
 
 D.2.  since draft-ietf-quic-load-balancers-05
 
@@ -2512,15 +2570,15 @@ D.3.  since draft-ietf-quic-load-balancers-04
 
    *  Added server use bytes to the test vectors
 
-   *  Additional compliant DCID criteria
 
 
 
-
-Duke & Banks             Expires 5 October 2021                [Page 45]
+Duke & Banks             Expires 23 October 2021               [Page 46]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
+
+   *  Additional compliant DCID criteria
 
 D.4.  since-draft-ietf-quic-load-balancers-03
 
@@ -2568,15 +2626,16 @@ D.9.  Since draft-duke-quic-load-balancers-05
 
    *  Made load balancer behavior independent of QUIC version
 
-   *  Got rid of token in stream cipher encoding, because server might
-      not have it
 
 
 
-Duke & Banks             Expires 5 October 2021                [Page 46]
+Duke & Banks             Expires 23 October 2021               [Page 47]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
+
+   *  Got rid of token in stream cipher encoding, because server might
+      not have it
 
    *  Defined "non-compliant DCID" and specified rules for handling
       them.
@@ -2623,16 +2682,15 @@ D.14.  Since draft-duke-quic-load-balancers-00
 
    *  Added variable length connection IDs
 
-Authors' Addresses
 
 
 
-
-
-Duke & Banks             Expires 5 October 2021                [Page 47]
+Duke & Banks             Expires 23 October 2021               [Page 48]
 
 Internet-Draft                   QUIC-LB                      April 2021
 
+
+Authors' Addresses
 
    Martin Duke
    F5 Networks, Inc.
@@ -2683,6 +2741,4 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-
-
-Duke & Banks             Expires 5 October 2021                [Page 48]
+Duke & Banks             Expires 23 October 2021               [Page 49]
