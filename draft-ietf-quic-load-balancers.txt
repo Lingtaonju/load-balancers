@@ -5,8 +5,8 @@
 QUIC                                                             M. Duke
 Internet-Draft                                         F5 Networks, Inc.
 Intended status: Standards Track                                N. Banks
-Expires: 23 October 2021                                       Microsoft
-                                                           21 April 2021
+Expires: 6 November 2021                                       Microsoft
+                                                              5 May 2021
 
 
             QUIC-LB: Generating Routable QUIC Connection IDs
@@ -53,12 +53,12 @@ Status of This Memo
 
 
 
-Duke & Banks             Expires 23 October 2021                [Page 1]
+Duke & Banks             Expires 6 November 2021                [Page 1]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
-   This Internet-Draft will expire on 23 October 2021.
+   This Internet-Draft will expire on 6 November 2021.
 
 Copyright Notice
 
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Duke & Banks             Expires 23 October 2021                [Page 2]
+Duke & Banks             Expires 6 November 2021                [Page 2]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    6.  ICMP Processing . . . . . . . . . . . . . . . . . . . . . . .  18
@@ -150,31 +150,35 @@ Internet-Draft                   QUIC-LB                      April 2021
      B.1.  Plaintext Connection ID Algorithm . . . . . . . . . . . .  42
      B.2.  Stream Cipher Connection ID Algorithm . . . . . . . . . .  43
      B.3.  Block Cipher Connection ID Algorithm  . . . . . . . . . .  44
-   Appendix C.  Acknowledgments  . . . . . . . . . . . . . . . . . .  46
-   Appendix D.  Change Log . . . . . . . . . . . . . . . . . . . . .  46
-     D.1.  since draft-ietf-quic-load-balancers-06 . . . . . . . . .  46
-     D.2.  since draft-ietf-quic-load-balancers-05 . . . . . . . . .  46
-     D.3.  since draft-ietf-quic-load-balancers-04 . . . . . . . . .  46
-     D.4.  since-draft-ietf-quic-load-balancers-03 . . . . . . . . .  47
-     D.5.  since-draft-ietf-quic-load-balancers-02 . . . . . . . . .  47
-     D.6.  since-draft-ietf-quic-load-balancers-01 . . . . . . . . .  47
-     D.7.  since-draft-ietf-quic-load-balancers-00 . . . . . . . . .  47
-     D.8.  Since draft-duke-quic-load-balancers-06 . . . . . . . . .  47
-     D.9.  Since draft-duke-quic-load-balancers-05 . . . . . . . . .  47
-     D.10. Since draft-duke-quic-load-balancers-04 . . . . . . . . .  48
+   Appendix C.  Interoperability with DTLS over UDP  . . . . . . . .  46
+     C.1.  DTLS 1.0 and 1.2  . . . . . . . . . . . . . . . . . . . .  46
+     C.2.  DTLS 1.3  . . . . . . . . . . . . . . . . . . . . . . . .  47
+     C.3.  Future Versions of DTLS . . . . . . . . . . . . . . . . .  47
+   Appendix D.  Acknowledgments  . . . . . . . . . . . . . . . . . .  47
+   Appendix E.  Change Log . . . . . . . . . . . . . . . . . . . . .  48
+     E.1.  since draft-ietf-quic-load-balancers-06 . . . . . . . . .  48
+     E.2.  since draft-ietf-quic-load-balancers-05 . . . . . . . . .  48
+     E.3.  since draft-ietf-quic-load-balancers-04 . . . . . . . . .  48
+     E.4.  since-draft-ietf-quic-load-balancers-03 . . . . . . . . .  48
+     E.5.  since-draft-ietf-quic-load-balancers-02 . . . . . . . . .  49
+     E.6.  since-draft-ietf-quic-load-balancers-01 . . . . . . . . .  49
 
 
 
-Duke & Banks             Expires 23 October 2021                [Page 3]
+Duke & Banks             Expires 6 November 2021                [Page 3]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
-     D.11. Since draft-duke-quic-load-balancers-03 . . . . . . . . .  48
-     D.12. Since draft-duke-quic-load-balancers-02 . . . . . . . . .  48
-     D.13. Since draft-duke-quic-load-balancers-01 . . . . . . . . .  48
-     D.14. Since draft-duke-quic-load-balancers-00 . . . . . . . . .  48
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  49
+     E.7.  since-draft-ietf-quic-load-balancers-00 . . . . . . . . .  49
+     E.8.  Since draft-duke-quic-load-balancers-06 . . . . . . . . .  49
+     E.9.  Since draft-duke-quic-load-balancers-05 . . . . . . . . .  49
+     E.10. Since draft-duke-quic-load-balancers-04 . . . . . . . . .  50
+     E.11. Since draft-duke-quic-load-balancers-03 . . . . . . . . .  50
+     E.12. Since draft-duke-quic-load-balancers-02 . . . . . . . . .  50
+     E.13. Since draft-duke-quic-load-balancers-01 . . . . . . . . .  50
+     E.14. Since draft-duke-quic-load-balancers-00 . . . . . . . . .  50
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  50
 
 1.  Introduction
 
@@ -211,24 +215,17 @@ Internet-Draft                   QUIC-LB                      April 2021
    is generally only discoverable by observers that have the parameters,
    preserving unlinkability as much as possible.
 
-
-
-
-
-
-
-
-
-
-
-Duke & Banks             Expires 23 October 2021                [Page 4]
-
-Internet-Draft                   QUIC-LB                      April 2021
-
-
    Aside from load balancing, a QUIC server may also desire to offload
    other protocol functions to trusted intermediaries.  These
    intermediaries might include hardware assist on the server host
+
+
+
+Duke & Banks             Expires 6 November 2021                [Page 4]
+
+Internet-Draft                   QUIC-LB                        May 2021
+
+
    itself, without access to fully decrypted QUIC packets.  For example,
    this document specifies a means of offloading stateless retry to
    counter Denial of Service attacks.  It also proposes a system for
@@ -274,15 +271,16 @@ Internet-Draft                   QUIC-LB                      April 2021
    different field, so that the lengths of two fields can be concisely
    defined as limited to a sum, for example:
 
-
-
-
-Duke & Banks             Expires 23 October 2021                [Page 5]
-
-Internet-Draft                   QUIC-LB                      April 2021
-
-
    x(A..B) y(C..B-len(x))
+
+
+
+
+
+Duke & Banks             Expires 6 November 2021                [Page 5]
+
+Internet-Draft                   QUIC-LB                        May 2021
+
 
    indicates that x can be of any length between A and B, and y can be
    of any length between C and B provided that (len(x) + len(y)) does
@@ -333,9 +331,11 @@ Example Structure {
 
 
 
-Duke & Banks             Expires 23 October 2021                [Page 6]
+
+
+Duke & Banks             Expires 6 November 2021                [Page 6]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    QUIC-LB is relevant in the region between these extremes: when the
@@ -389,9 +389,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021                [Page 7]
+Duke & Banks             Expires 6 November 2021                [Page 7]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    It also possible to use these bits for more long-lived distinction of
@@ -445,9 +445,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021                [Page 8]
+Duke & Banks             Expires 6 November 2021                [Page 8]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    CID Len or Random Bits: Length Self-Description (if applicable), or
@@ -501,9 +501,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021                [Page 9]
+Duke & Banks             Expires 6 November 2021                [Page 9]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    *  The extracted server mapping might not correspond to an active
@@ -557,9 +557,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 10]
+Duke & Banks             Expires 6 November 2021               [Page 10]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    For example, one fallback algorithm might convert a unroutable DCID
@@ -613,9 +613,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 11]
+Duke & Banks             Expires 6 November 2021               [Page 11]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
 4.3.2.  Dynamic Allocation
@@ -669,9 +669,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 12]
+Duke & Banks             Expires 6 November 2021               [Page 12]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    *  If the sole reason for unroutability is that the server ID is not
@@ -725,9 +725,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 13]
+Duke & Banks             Expires 6 November 2021               [Page 13]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    If a server has not received a connection ID encoding a particular
@@ -781,9 +781,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 14]
+Duke & Banks             Expires 6 November 2021               [Page 14]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    When a server needs a new connection ID, it encodes one of its
@@ -837,9 +837,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 15]
+Duke & Banks             Expires 6 November 2021               [Page 15]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    *  Pass 1: The load balancer decrypts the server ID using 128-bit AES
@@ -893,9 +893,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 16]
+Duke & Banks             Expires 6 November 2021               [Page 16]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
 5.2.3.  Server Actions
@@ -949,9 +949,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 17]
+Duke & Banks             Expires 6 November 2021               [Page 17]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    The decrypted plaintext contains the server id and opaque server data
@@ -1005,9 +1005,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 18]
+Duke & Banks             Expires 6 November 2021               [Page 18]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    A "Retry Service" detects potential Denial of Service attacks and
@@ -1061,9 +1061,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 19]
+Duke & Banks             Expires 6 November 2021               [Page 19]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    If all entities supply Allow-Lists, the consolidated list MUST be the
@@ -1117,9 +1117,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 20]
+Duke & Banks             Expires 6 November 2021               [Page 20]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
       will effectively break Address Migration and NAT Rebinding when in
@@ -1173,9 +1173,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 21]
+Duke & Banks             Expires 6 November 2021               [Page 21]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    Non-Shared-State Retry Service Token {
@@ -1229,9 +1229,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 22]
+Duke & Banks             Expires 6 November 2021               [Page 22]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    Note that this scheme has a performance drawback.  When the retry
@@ -1285,9 +1285,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 23]
+Duke & Banks             Expires 6 November 2021               [Page 23]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    The tokens are protected using AES128-GCM AEAD, as explained in
@@ -1341,9 +1341,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 24]
+Duke & Banks             Expires 6 November 2021               [Page 24]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    ODCIL: The original destination connection ID length.  Tokens in
@@ -1397,9 +1397,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 25]
+Duke & Banks             Expires 6 November 2021               [Page 25]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    *  The token key and IV are retrieved using the Key Sequence.
@@ -1453,9 +1453,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 26]
+Duke & Banks             Expires 6 November 2021               [Page 26]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    If the token verification passes, and the ODCIL and RSCIL fields are
@@ -1509,9 +1509,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 27]
+Duke & Banks             Expires 6 November 2021               [Page 27]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    For QUIC versions the service does not support, the server MAY use
@@ -1565,9 +1565,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 28]
+Duke & Banks             Expires 6 November 2021               [Page 28]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
 9.1.  Load balancer chains
@@ -1621,9 +1621,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 29]
+Duke & Banks             Expires 6 November 2021               [Page 29]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    Section 4.1 provides guidance about how load balancers should handle
@@ -1677,9 +1677,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 30]
+Duke & Banks             Expires 6 November 2021               [Page 30]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    new Connection ID in the event of config rotation Section 3.1.  Doing
@@ -1733,9 +1733,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 31]
+Duke & Banks             Expires 6 November 2021               [Page 31]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
 11.4.  Limited configuration scope
@@ -1789,9 +1789,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 32]
+Duke & Banks             Expires 6 November 2021               [Page 32]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
 11.5.  Stateless Reset Oracle
@@ -1845,9 +1845,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 33]
+Duke & Banks             Expires 6 November 2021               [Page 33]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    *  Confidentiality of the token data will fail if separate tokens
@@ -1901,9 +1901,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 34]
+Duke & Banks             Expires 6 November 2021               [Page 34]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
@@ -1957,9 +1957,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 35]
+Duke & Banks             Expires 6 November 2021               [Page 35]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    [RFC8484]  Hoffman, P. and P. McManus, "DNS Queries over HTTPS
@@ -2013,9 +2013,9 @@ module ietf-quic-lb {
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 36]
+Duke & Banks             Expires 6 November 2021               [Page 36]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
      (https://trustee.ietf.org/license-info).
@@ -2069,9 +2069,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 37]
+Duke & Banks             Expires 6 November 2021               [Page 37]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
         type boolean;
@@ -2125,9 +2125,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 38]
+Duke & Banks             Expires 6 November 2021               [Page 38]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
         }
@@ -2181,9 +2181,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 39]
+Duke & Banks             Expires 6 November 2021               [Page 39]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
             description "Unsupported versions denied by default";
@@ -2237,9 +2237,9 @@ Internet-Draft                   QUIC-LB                      April 2021
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 40]
+Duke & Banks             Expires 6 November 2021               [Page 40]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
 A.1.  Tree Diagram
@@ -2293,9 +2293,9 @@ Appendix B.  Load Balancer Test Vectors
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 41]
+Duke & Banks             Expires 6 November 2021               [Page 41]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    cid      Connection ID
@@ -2349,9 +2349,9 @@ B.1.  Plaintext Connection ID Algorithm
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 42]
+Duke & Banks             Expires 6 November 2021               [Page 42]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    LB configuration: cr_bits 0x0 length_self_encoding: y sid_len 1
@@ -2405,9 +2405,9 @@ B.2.  Stream Cipher Connection ID Algorithm
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 43]
+Duke & Banks             Expires 6 November 2021               [Page 43]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
 LB configuration: cr_bits 0x0 length_self_encoding: y nonce_len 12 sid_len 1
@@ -2461,9 +2461,9 @@ B.3.  Block Cipher Connection ID Algorithm
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 44]
+Duke & Banks             Expires 6 November 2021               [Page 44]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
 LB configuration: cr_bits 0x0 length_self_encoding: y sid_len 1
@@ -2517,12 +2517,107 @@ cid 1024412bfe25f4547510204bdda6143814 sid 8a8dd3d036 su 4b12933a135e5eaaebc6fd
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 45]
+Duke & Banks             Expires 6 November 2021               [Page 45]
 
-Internet-Draft                   QUIC-LB                      April 2021
+Internet-Draft                   QUIC-LB                        May 2021
 
 
-Appendix C.  Acknowledgments
+Appendix C.  Interoperability with DTLS over UDP
+
+   Some environments may contain DTLS traffic as well as QUIC operating
+   over UDP, which may be hard to distinguish.
+
+   In most cases, the packet parsing rules above will cause a QUIC-LB
+   load balancer to route DTLS traffic in an appropriate way.  DTLS 1.3
+   implementations that use the connection_id extension [?I-D.ietf-tls-
+   dtls-connection-id] might use the techniques in this document to
+   generate connection IDs and achieve robust routability for DTLS
+   associations if they meet a few additional requirements.  This non-
+   normative appendix describes this interaction.
+
+C.1.  DTLS 1.0 and 1.2
+
+   DTLS 1.0 [?RFC4347] and 1.2 [?RFC6347] use packet formats that a
+   QUIC-LB router will interpret as short header packets with CIDs that
+   request 4-tuple routing.  As such, they will route such packets
+   consistently as long as the 4-tuple does not change.  Note that DTLS
+   1.0 has been deprecated by the IETF.
+
+   The first octet of every DTLS 1.0 or 1.2 datagram contains the
+   content type.  A QUIC-LB load balancer will interpret any content
+   type less than 128 as a short header packet, meaning that the
+   subsequent octets should contain a connection ID.
+
+   Existing TLS content types comfortably fit in the range below 128.
+   Assignment of codepoints greater than 64 would require coordination
+   in accordance with [?RFC7983], and anyway would likely create
+   problems demultiplexing DTLS and version 1 of QUIC.  Therefore, this
+   document believes it is extremely unlikely that TLS content types of
+   128 or greater will be assigned.  Nevertheless, such an assignment
+   would cause a QUIC-LB load balancer to interpret the packet as a QUIC
+   long header with an essentially random connection ID, which is likely
+   to be routed irregularly.
+
+   The second octet of every DTLS 1.0 or 1.2 datagram is the bitwise
+   complement of the DTLS Major version (i.e. version 1.x = 0xfe).  A
+   QUIC-LB load balancer will interpret this as a connection ID that
+   requires 4-tuple based load balancing, meaning that the routing will
+   be consistent as long as the 4-tuple remains the same.
+
+   [?I-D.ietf-tls-dtls-connection-id] defines an extension to add
+   connection IDs to DTLS 1.2.  Unfortunately, a QUIC-LB load balancer
+   will not correctly parse the connection ID and will continue 4-tuple
+   routing.  An modified QUIC-LB load balancer that correctly identifies
+   DTLS and parses a DTLS 1.2 datagram for the connection ID is outside
+   the scope of this document.
+
+
+
+Duke & Banks             Expires 6 November 2021               [Page 46]
+
+Internet-Draft                   QUIC-LB                        May 2021
+
+
+C.2.  DTLS 1.3
+
+   DTLS 1.3 [?I-D.draft-ietf-tls-dtls13] changes the structure of
+   datagram headers in relevant ways.
+
+   Handshake packets continue to have a TLS content type in the first
+   octet and 0xfe in the second octet, so they will be 4-tuple routed,
+   which should not present problems for likely NAT rebinding or address
+   change events.
+
+   Non-handshake packets always have zero in their most significant bit
+   and will therefore always be treated as QUIC short headers.  If the
+   connection ID is present, it follows in the succeeding octets.
+   Therefore, a DTLS 1.3 association where the server utilizes
+   Connection IDs and the encodings in this document will be routed
+   correctly in the presence of client address and port changes.
+
+   However, if the client does not include the connection_id extension
+   in its ClientHello, the server is unable to use connection IDs.  In
+   this case, non- handshake packets will appear to contain random
+   connection IDs and be routed randomly.  Thus, unmodified QUIC-LB load
+   balancers will not work with DTLS 1.3 if the client does not
+   advertise support for connection IDs, or the server does not request
+   the use of a compliant connection ID.
+
+   A QUIC-LB load balancer might be modified to identify DTLS 1.3
+   packets and correctly parse the fields to identify when there is no
+   connection ID and revert to 4-tuple routing, removing the server
+   requirement above.  However, such a modification is outside the scope
+   of this document, and classifying some packets as DTLS might be
+   incompatible with future versions of QUIC.
+
+C.3.  Future Versions of DTLS
+
+   As DTLS does not have an IETF consensus document that defines what
+   parts of DTLS will be invariant in future versions, it is difficult
+   to speculate about the applicability of this section to future
+   versions of DTLS.
+
+Appendix D.  Acknowledgments
 
    The authors would like to thank Christian Huitema and Ian Swett for
    their major design contributions.
@@ -2532,12 +2627,21 @@ Appendix C.  Acknowledgments
    Udip Pant, Martin Thomson, Dmitri Tikhonov, Victor Vasiliev, and
    William Zeng Ke all provided useful input to this document.
 
-Appendix D.  Change Log
+
+
+Duke & Banks             Expires 6 November 2021               [Page 47]
+
+Internet-Draft                   QUIC-LB                        May 2021
+
+
+Appendix E.  Change Log
 
       *RFC Editor's Note:* Please remove this section prior to
       publication of a final version of this document.
 
-D.1.  since draft-ietf-quic-load-balancers-06
+E.1.  since draft-ietf-quic-load-balancers-06
+
+   *  Added interoperability with DTLS
 
    *  Changed "non-compliant" to "unroutable"
 
@@ -2545,7 +2649,7 @@ D.1.  since draft-ietf-quic-load-balancers-06
 
    *  Revised security considerations for mistrustful tenants
 
-D.2.  since draft-ietf-quic-load-balancers-05
+E.2.  since draft-ietf-quic-load-balancers-05
 
    *  Added low-config CID for further discussion
 
@@ -2557,7 +2661,7 @@ D.2.  since draft-ietf-quic-load-balancers-05
 
    *  Switched to notation from quic-transport
 
-D.3.  since draft-ietf-quic-load-balancers-04
+E.3.  since draft-ietf-quic-load-balancers-04
 
    *  Rearranged the shared-state retry token to simplify token
       processing
@@ -2570,25 +2674,25 @@ D.3.  since draft-ietf-quic-load-balancers-04
 
    *  Added server use bytes to the test vectors
 
-
-
-
-Duke & Banks             Expires 23 October 2021               [Page 46]
-
-Internet-Draft                   QUIC-LB                      April 2021
-
-
    *  Additional compliant DCID criteria
 
-D.4.  since-draft-ietf-quic-load-balancers-03
+E.4.  since-draft-ietf-quic-load-balancers-03
 
    *  Improved Config Rotation text
 
    *  Added stream cipher test vectors
 
+
+
+
+Duke & Banks             Expires 6 November 2021               [Page 48]
+
+Internet-Draft                   QUIC-LB                        May 2021
+
+
    *  Deleted the Obfuscated CID algorithm
 
-D.5.  since-draft-ietf-quic-load-balancers-02
+E.5.  since-draft-ietf-quic-load-balancers-02
 
    *  Replaced stream cipher algorithm with three-pass version
 
@@ -2602,7 +2706,7 @@ D.5.  since-draft-ietf-quic-load-balancers-02
 
    *  Allow dropped long-header packets for known QUIC versions
 
-D.6.  since-draft-ietf-quic-load-balancers-01
+E.6.  since-draft-ietf-quic-load-balancers-01
 
    *  Test vectors for load balancer decoding
 
@@ -2612,27 +2716,19 @@ D.6.  since-draft-ietf-quic-load-balancers-01
 
    *  Discussed load balancer chains
 
-D.7.  since-draft-ietf-quic-load-balancers-00
+E.7.  since-draft-ietf-quic-load-balancers-00
 
    *  Removed in-band protocol from the document
 
-D.8.  Since draft-duke-quic-load-balancers-06
+E.8.  Since draft-duke-quic-load-balancers-06
 
    *  Switch to IETF WG draft.
 
-D.9.  Since draft-duke-quic-load-balancers-05
+E.9.  Since draft-duke-quic-load-balancers-05
 
    *  Editorial changes
 
    *  Made load balancer behavior independent of QUIC version
-
-
-
-
-Duke & Banks             Expires 23 October 2021               [Page 47]
-
-Internet-Draft                   QUIC-LB                      April 2021
-
 
    *  Got rid of token in stream cipher encoding, because server might
       not have it
@@ -2642,11 +2738,19 @@ Internet-Draft                   QUIC-LB                      April 2021
 
    *  Added psuedocode for config schema
 
-D.10.  Since draft-duke-quic-load-balancers-04
+
+
+
+Duke & Banks             Expires 6 November 2021               [Page 49]
+
+Internet-Draft                   QUIC-LB                        May 2021
+
+
+E.10.  Since draft-duke-quic-load-balancers-04
 
    *  Added standard for retry services
 
-D.11.  Since draft-duke-quic-load-balancers-03
+E.11.  Since draft-duke-quic-load-balancers-03
 
    *  Renamed Plaintext CID algorithm as Obfuscated CID
 
@@ -2656,7 +2760,7 @@ D.11.  Since draft-duke-quic-load-balancers-03
 
    *  Added self-encoding of CID length
 
-D.12.  Since draft-duke-quic-load-balancers-02
+E.12.  Since draft-duke-quic-load-balancers-02
 
    *  Added Config Rotation
 
@@ -2668,7 +2772,7 @@ D.12.  Since draft-duke-quic-load-balancers-02
 
    *  Reformatted QUIC-LB packets
 
-D.13.  Since draft-duke-quic-load-balancers-01
+E.13.  Since draft-duke-quic-load-balancers-01
 
    *  Complete rewrite
 
@@ -2676,19 +2780,11 @@ D.13.  Since draft-duke-quic-load-balancers-01
 
    *  Lightweight messages
 
-D.14.  Since draft-duke-quic-load-balancers-00
+E.14.  Since draft-duke-quic-load-balancers-00
 
    *  Converted to markdown
 
    *  Added variable length connection IDs
-
-
-
-
-Duke & Banks             Expires 23 October 2021               [Page 48]
-
-Internet-Draft                   QUIC-LB                      April 2021
-
 
 Authors' Addresses
 
@@ -2696,6 +2792,14 @@ Authors' Addresses
    F5 Networks, Inc.
 
    Email: martin.h.duke@gmail.com
+
+
+
+
+
+Duke & Banks             Expires 6 November 2021               [Page 50]
+
+Internet-Draft                   QUIC-LB                        May 2021
 
 
    Nick Banks
@@ -2741,4 +2845,12 @@ Authors' Addresses
 
 
 
-Duke & Banks             Expires 23 October 2021               [Page 49]
+
+
+
+
+
+
+
+
+Duke & Banks             Expires 6 November 2021               [Page 51]
