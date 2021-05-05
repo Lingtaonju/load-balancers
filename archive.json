@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-04-21T21:04:06.877759+00:00",
+  "timestamp": "2021-05-05T18:50:53.475447+00:00",
   "repo": "quicwg/load-balancers",
   "labels": [
     {
@@ -1940,15 +1940,15 @@
       "id": "MDU6SXNzdWU4NTIwNjg5NTY=",
       "title": "Consider an alternative name of `AEAD checksum`",
       "url": "https://github.com/quicwg/load-balancers/issues/111",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "william-zk",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Hi martin:\r\n`AEAD checksum` is not a standard name of AEAD verification message, which should be `AEAD Integrity Check Value`, see section 6 of rfc4106",
       "createdAt": "2021-04-07T06:45:00Z",
-      "updatedAt": "2021-04-07T06:58:25Z",
-      "closedAt": null,
+      "updatedAt": "2021-04-21T23:16:38Z",
+      "closedAt": "2021-04-21T23:16:38Z",
       "comments": []
     },
     {
@@ -1958,24 +1958,26 @@
       "url": "https://github.com/quicwg/load-balancers/issues/113",
       "state": "OPEN",
       "author": "william-zk",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "editorial"
+      ],
       "body": "Hi martin:\r\n \r\nThe defination of `AEAD IV` and `AEAD nonce` brought me a great confusion when I implement the share-state retry service. Though finally I got what the draft want to express, I still suggest we should give more information about them\r\n\r\nAccording to section 1.5 of rfc5084:\r\n```\r\nAES-GCM has four inputs: an AES key, an initialization vector (IV), a plaintext content, and optional additional authenticated data (AAD).\r\n```\r\n\r\nAccording to section 3.4 of rfc5116\r\n```\r\nFor example, AES-GCM ESP [RFC4106] can be expressed as follows.  The\r\n   AEAD inputs are\r\n\r\n      P = RestOfPayloadData || TFCpadding || Padding || PadLength ||\r\n      NextHeader\r\n\r\n      N = Salt || IV\r\n\r\n      A = SPI || SequenceNumber\r\n\r\n   where the symbol \"||\" denotes the concatenation operation, and the\r\n   fields RestOfPayloadData, TFCpadding, Padding, PadLength, NextHeader,\r\n   SPI, and SequenceNumber are as defined in [RFC4303], and the fields\r\n   Salt and IV are as defined in [RFC4106]. \r\n```\r\n\r\nI guess that `AEAD nonce` in current draft is the `nonce` define in rfc5116,  `AEAD IV` is just a random value(or a incrementing number) to generate `AEAD nonce`. If I were true, please consider my PR for my suggestion.",
       "createdAt": "2021-04-07T06:57:35Z",
-      "updatedAt": "2021-04-19T06:29:31Z",
+      "updatedAt": "2021-04-21T23:17:09Z",
       "closedAt": null,
       "comments": [
         {
           "author": "william-zk",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "Additional, it's no need to make the length of `AEAD IV`(current draft define)  variable, just 96 bit is sufficient. Current aes-128-gcm related cipher suites all use this value",
           "createdAt": "2021-04-16T08:02:26Z",
           "updatedAt": "2021-04-16T08:02:26Z"
         },
         {
           "author": "william-zk",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "We can also add some illustration of `Key Sequence`, draft use `identifier` in other place",
           "createdAt": "2021-04-16T09:36:22Z",
           "updatedAt": "2021-04-16T09:36:22Z"
@@ -5578,13 +5580,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2021-03-24T17:30:10Z",
-      "updatedAt": "2021-04-02T21:47:37Z",
+      "updatedAt": "2021-05-05T18:50:08Z",
       "baseRepository": "quicwg/load-balancers",
       "baseRefName": "master",
-      "baseRefOid": "ef833f7843d1ab48963bcb4572e74f3a49a5fe9c",
+      "baseRefOid": "e2a452f8d58f890d5d17f3eedde42905bd42b7fa",
       "headRepository": "quicwg/load-balancers",
       "headRefName": "dtls",
-      "headRefOid": "7ad67882348803aff02e4cb67e213f4c7427c3c8",
+      "headRefOid": "661531d6776f8dda0a33267b05d564b3378ebc38",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -5603,6 +5605,13 @@
           "body": "To expand on the comment that we should explain how to parse DTLS:\r\n\r\nTo me, it is more important to remain as QUIC-version-invariant as possible than to support DTLS. DTLS-awareness implies a very specific set of assumptions about the first byte which are not consistent with version-invariance.\r\n\r\nThis PR is mostly non-normative text about what happens if you're also running DTLS on the same port in the server pool behind QUIC-LB. I've added a few normative statements about what DTLS servers should do to avoid the most serious problems, but I would rather delete the normative bits than expand the scope to fully support DTLS.\r\n\r\nI am open to the argument that this should be a non-normative appendix.\r\n",
           "createdAt": "2021-03-25T17:38:56Z",
           "updatedAt": "2021-03-25T17:38:56Z"
+        },
+        {
+          "author": "martinduke",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "The most substantive critique was that this was \"halfway\". Putting it a non-normative appendix backs it off being halfway to just being some notes. I think expanding this spec to include a full DTLS-aware load balancer would be a mistake.",
+          "createdAt": "2021-05-05T18:49:04Z",
+          "updatedAt": "2021-05-05T18:49:04Z"
         }
       ],
       "reviews": [
@@ -5622,19 +5631,19 @@
               "originalPosition": 18,
               "body": "DTLS 1.0 isn't getting connection ID support as far as I'm aware.",
               "createdAt": "2021-03-25T00:50:50Z",
-              "updatedAt": "2021-04-02T21:47:37Z"
+              "updatedAt": "2021-05-05T18:50:08Z"
             },
             {
               "originalPosition": 47,
               "body": "It seems like, given the amount of text you just added for DTLS it would be trivial to identify how to match the first DTLS octet and then find the connection ID.  It's just a few bytes down at a fixed location.",
               "createdAt": "2021-03-25T00:54:27Z",
-              "updatedAt": "2021-04-02T21:47:37Z"
+              "updatedAt": "2021-05-05T18:50:08Z"
             },
             {
               "originalPosition": 72,
               "body": "NEVER recommend downgrade.  Maybe just imply that a server that requires the use of connection IDs might not be able to deploy DTLS 1.3.",
               "createdAt": "2021-03-25T00:55:57Z",
-              "updatedAt": "2021-04-02T21:47:37Z"
+              "updatedAt": "2021-05-05T18:50:08Z"
             }
           ]
         },
@@ -5654,7 +5663,7 @@
               "originalPosition": 18,
               "body": "Yes, this is addressing a couple of things:\r\n\r\n1) Running DTLS in the same infrastructure as QUIC on the same port. Will a plain old QUIC-LB load balancer break my stuff? The answer is no, except DTLS 1.3 when not using CIDs.\r\n2) #1, plus I want to use Connection IDs to be resistant to address changes. This will just not work for DTLS 1.2 but it will work fine for 1.3 unless the client refuses to use CIDs.",
               "createdAt": "2021-03-25T01:04:50Z",
-              "updatedAt": "2021-04-02T21:47:37Z"
+              "updatedAt": "2021-05-05T18:50:08Z"
             }
           ]
         },
@@ -5674,7 +5683,7 @@
               "originalPosition": 47,
               "body": "I guess, but then you have to talk about demultiplexing QUIC and DTLS, the bit-grease extension, and you're breaking the almost-version-invariance of QUIC-LB pretty badly.\r\n\r\nThis draft has already got too much stuff in it, so I thought I'd just write down how DTLS would work out of the box. If people care about this use case I could write DTLS-LB or whatever.",
               "createdAt": "2021-03-25T01:06:19Z",
-              "updatedAt": "2021-04-02T21:47:37Z"
+              "updatedAt": "2021-05-05T18:50:08Z"
             }
           ]
         },
@@ -5694,7 +5703,7 @@
               "originalPosition": 72,
               "body": "Yeah, downgrade is a gross suggestion, but it's the only way to continue. This is a case where DTLS 1.3 will often be fine but can negotiate itself into a mode that fails catastrophically.\r\n\r\nBut your second sentence is backwards. A TLS1.3 server MUST support connection IDs, or else the ciphertext packets will spray all over the place. The real problem is if the client refuses to use them.",
               "createdAt": "2021-03-25T01:08:45Z",
-              "updatedAt": "2021-04-02T21:47:37Z"
+              "updatedAt": "2021-05-05T18:50:08Z"
             }
           ]
         }
@@ -5807,24 +5816,26 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NjEwMzgzMjg2",
       "title": "change AEAD checksum to AEAD ICV",
       "url": "https://github.com/quicwg/load-balancers/pull/112",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "william-zk",
-      "authorAssociation": "FIRST_TIME_CONTRIBUTOR",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "fix #111, detail info:\r\n1. fix a typo.\r\n2. change AEAD checksum to AEAD ICV(defined in rfc4106)",
       "createdAt": "2021-04-07T06:46:48Z",
-      "updatedAt": "2021-04-07T06:47:49Z",
+      "updatedAt": "2021-04-21T23:16:38Z",
       "baseRepository": "quicwg/load-balancers",
       "baseRefName": "master",
       "baseRefOid": "0e5b20fe561a403038cf5a92ce30b6c7a0dfb3cf",
       "headRepository": "william-zk/load-balancers",
       "headRefName": "dev_fix_aead_checksum",
       "headRefOid": "309186d500d0ce7486c8703d056dbc2f08580c8d",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2021-04-21T23:16:38Z",
+      "mergedAt": "2021-04-21T23:16:38Z",
+      "mergedBy": "martinduke",
+      "mergeCommit": {
+        "oid": "01797dfcece8cd23605dda6747309fa5438f5eaa"
+      },
       "comments": [],
       "reviews": []
     },
@@ -5835,24 +5846,269 @@
       "url": "https://github.com/quicwg/load-balancers/pull/115",
       "state": "OPEN",
       "author": "william-zk",
-      "authorAssociation": "FIRST_TIME_CONTRIBUTOR",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "fix #113",
       "createdAt": "2021-04-07T08:54:47Z",
-      "updatedAt": "2021-04-16T09:36:47Z",
+      "updatedAt": "2021-04-24T06:12:38Z",
       "baseRepository": "quicwg/load-balancers",
       "baseRefName": "master",
       "baseRefOid": "0e5b20fe561a403038cf5a92ce30b6c7a0dfb3cf",
       "headRepository": "william-zk/load-balancers",
       "headRefName": "dev_rename_iv_and_nonce",
-      "headRefOid": "3b17197805bf396071da1d83e6d3c58d3da63e68",
+      "headRefOid": "2aab2d9408411cfe751c43c081851c3f56954120",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjQxNjM0MDUx",
+          "commit": {
+            "abbreviatedOid": "3b17197"
+          },
+          "author": "martinduke",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "Most of this is fine, but there would appear to be some confusion.",
+          "createdAt": "2021-04-21T23:23:46Z",
+          "updatedAt": "2021-04-21T23:47:28Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\n* The Key Sequence is the 8 bit identifier to retrieve the token key and IV.\r\n```",
+              "createdAt": "2021-04-21T23:23:46Z",
+              "updatedAt": "2021-04-24T06:08:25Z"
+            },
+            {
+              "originalPosition": 27,
+              "body": "```suggestion\r\nbit identifier of the AES-GCM encryption context. There are three important\r\n```",
+              "createdAt": "2021-04-21T23:25:56Z",
+              "updatedAt": "2021-04-24T06:08:25Z"
+            },
+            {
+              "originalPosition": 11,
+              "body": "It's not a sequence number and it's not incremented by one. The IV is a product of the key derivation function.",
+              "createdAt": "2021-04-21T23:28:13Z",
+              "updatedAt": "2021-04-24T06:08:25Z"
+            },
+            {
+              "originalPosition": 17,
+              "body": "This paragraph doesn't correctly capture what the original paragraph did. To generate the nonce:\r\n1. left-pad the unique token number to the length of the IV\r\n2. nonce = IV ^ (padded unique token number)",
+              "createdAt": "2021-04-21T23:31:24Z",
+              "updatedAt": "2021-04-24T06:08:25Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjQxNzE3Mzc5",
+          "commit": {
+            "abbreviatedOid": "853012c"
+          },
+          "author": "william-zk",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-04-22T02:01:51Z",
+          "updatedAt": "2021-04-22T02:01:51Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "Should we limit that length of nonce and IV is just 96 bit? See section 5.1 of RFC5116(https://tools.ietf.org/html/rfc5116#section-5.1)\r\n```\r\nAEAD_AES_128_GCM input and output lengths are as follows:\r\n\r\n      K_LEN is 16 octets,\r\n\r\n      P_MAX is 2^36 - 31 octets,\r\n\r\n      A_MAX is 2^61 - 1 octets,\r\n\r\n      N_MIN and N_MAX are both 12 octets, and\r\n\r\n      C_MAX is 2^36 - 15 octets.\r\n```\r\nIf we limit that, then there is no need for padding",
+              "createdAt": "2021-04-22T02:01:51Z",
+              "updatedAt": "2021-04-24T06:08:25Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjQxNzM3MTkw",
+          "commit": {
+            "abbreviatedOid": "46f9bef"
+          },
+          "author": "william-zk",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-04-22T02:55:44Z",
+          "updatedAt": "2021-04-22T02:55:44Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "I have rewrite the illustration of `AEAD IV`, please check it ;-)",
+              "createdAt": "2021-04-22T02:55:44Z",
+              "updatedAt": "2021-04-24T06:08:25Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjQyNTQ2MjA4",
+          "commit": {
+            "abbreviatedOid": "46f9bef"
+          },
+          "author": "martinduke",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-04-22T18:31:55Z",
+          "updatedAt": "2021-04-22T18:31:55Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "I don't see much value in that. Selecting long keys and IVs probably has some security value that there isn't much reason to prohibit.",
+              "createdAt": "2021-04-22T18:31:55Z",
+              "updatedAt": "2021-04-24T06:08:25Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjQyOTAxOTI5",
+          "commit": {
+            "abbreviatedOid": "46f9bef"
+          },
+          "author": "william-zk",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-04-23T03:38:58Z",
+          "updatedAt": "2021-04-23T03:38:58Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "Please have a look at this discussion: https://crypto.stackexchange.com/questions/41601/aes-gcm-recommended-iv-size-why-12-bytes\r\n\r\nA 12 byte nonce(which was called IV in the link) is the best practice of  aes-gcm related cipher.\r\n\r\nFurther more, in cryptography related discussion, the definition of IV and nonce terms is always confusing, that's why I propose to add some explanation about them in our draft",
+              "createdAt": "2021-04-23T03:38:58Z",
+              "updatedAt": "2021-04-24T06:08:25Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjQzNTU5NDc2",
+          "commit": {
+            "abbreviatedOid": "46f9bef"
+          },
+          "author": "huitema",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "More precision is always good. I would not make the implicit hypothesis that the IV is always 96 bits, but that could be a simplification.",
+          "createdAt": "2021-04-23T18:22:41Z",
+          "updatedAt": "2021-04-23T18:26:37Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "It would be simpler to just add the paragraph describing the IV and keep the description of the nonce as is. Something like:\r\n```\r\n* The Key Sequence is the 8 bit identifier to retrieve the token key and IV.\r\n\r\n* The AEAD IV, is a 96 bit data which produced by implementer's custom\r\nAEAD IV derivation function.\r\n\r\n* The AEAD nonce, N, is formed by combining the IV with the 96 bit unique token\r\nnumber. The 96 bits of the unique token number are left-padded with zeros to the\r\nsize of the IV. The exclusive OR of the padded unique token number and the IV\r\nforms the AEAD nonce.\r\n",
+              "createdAt": "2021-04-23T18:22:41Z",
+              "updatedAt": "2021-04-24T06:08:25Z"
+            },
+            {
+              "originalPosition": 28,
+              "body": "Context is a better word, since it encompasses both Key and IV. But if we do that, it might be good to say something like \"AES-GCM encryption context containing Key and IV\".",
+              "createdAt": "2021-04-23T18:24:48Z",
+              "updatedAt": "2021-04-24T06:08:25Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjQzNzY0ODk3",
+          "commit": {
+            "abbreviatedOid": "46f9bef"
+          },
+          "author": "william-zk",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-04-24T05:38:05Z",
+          "updatedAt": "2021-04-24T05:38:05Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "> It would be simpler to just add the paragraph describing the IV and keep the description of the nonce as is. Something like:\r\n> \r\n> ```\r\n> * The Key Sequence is the 8 bit identifier to retrieve the token key and IV.\r\n> \r\n> * The AEAD IV, is a 96 bit data which produced by implementer's custom\r\n> AEAD IV derivation function.\r\n> \r\n> * The AEAD nonce, N, is formed by combining the IV with the 96 bit unique token\r\n> number. The 96 bits of the unique token number are left-padded with zeros to the\r\n> size of the IV. The exclusive OR of the padded unique token number and the IV\r\n> forms the AEAD nonce.\r\n> ```\r\n\r\nHi huitema:\r\nOur current discussion is about whether we need to limit AEAD nonce to 96 bits, I find that 12-byte nonce is the best practice of aes-gcm related cipher, if we limit that, then we need not do padding for unique token number. Can you give us some better advice about it?",
+              "createdAt": "2021-04-24T05:38:05Z",
+              "updatedAt": "2021-04-24T06:08:25Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjQzNzY1NjQ2",
+          "commit": {
+            "abbreviatedOid": "46f9bef"
+          },
+          "author": "william-zk",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-04-24T05:50:16Z",
+          "updatedAt": "2021-04-24T05:50:16Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "> Context is a better word, since it encompasses both Key and IV. But if we do that, it might be good to say something like \"AES-GCM encryption context containing Key and IV\".\r\n\r\nOK, I have fix it, just like this:\r\n```\r\nand an 8 bit identifier used to get the AES-GCM encryption context. The AES-GCM encryption\r\ncontext contains a 96 bit key and a 96 bit AEAD IV\r\n```",
+              "createdAt": "2021-04-24T05:50:16Z",
+              "updatedAt": "2021-04-24T06:08:25Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjQzNzg4NzMy",
+          "commit": {
+            "abbreviatedOid": "aba2a9f"
+          },
+          "author": "huitema",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-04-24T06:06:09Z",
+          "updatedAt": "2021-04-24T06:06:09Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "The key is 128 bits for AES_GCM 128.",
+              "createdAt": "2021-04-24T06:06:09Z",
+              "updatedAt": "2021-04-24T06:08:25Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjQzNzkzNTYx",
+          "commit": {
+            "abbreviatedOid": "aba2a9f"
+          },
+          "author": "william-zk",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-04-24T06:08:45Z",
+          "updatedAt": "2021-04-24T06:08:45Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "sorry, I made a foolish mistake...fixed",
+              "createdAt": "2021-04-24T06:08:45Z",
+              "updatedAt": "2021-04-24T06:08:45Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjQzODAwMzE1",
+          "commit": {
+            "abbreviatedOid": "aba2a9f"
+          },
+          "author": "huitema",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-04-24T06:12:27Z",
+          "updatedAt": "2021-04-24T06:12:38Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "In theory, the IV could be as large as the block size, 128 bits. In practice, it is indeed using 96 bits for AES GCM. @martinduke if we are OK with only supporting AES GCM, then we can fix the IV size to 96 bits.",
+              "createdAt": "2021-04-24T06:12:27Z",
+              "updatedAt": "2021-04-24T06:12:38Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 116,
@@ -5879,6 +6135,32 @@
       "mergeCommit": {
         "oid": "1c1a02ac188de2b55a545eb018a104d7aab7ce1e"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 117,
+      "id": "MDExOlB1bGxSZXF1ZXN0NjI1ODQwMjI1",
+      "title": "add test vector for shared-stated retry service, see #114",
+      "url": "https://github.com/quicwg/load-balancers/pull/117",
+      "state": "OPEN",
+      "author": "william-zk",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "see issue: #114 ",
+      "createdAt": "2021-04-29T07:08:23Z",
+      "updatedAt": "2021-04-29T08:17:36Z",
+      "baseRepository": "quicwg/load-balancers",
+      "baseRefName": "master",
+      "baseRefOid": "e2a452f8d58f890d5d17f3eedde42905bd42b7fa",
+      "headRepository": "william-zk/load-balancers",
+      "headRefName": "dev_add_test_vector_for_share_state_retry_service",
+      "headRefOid": "4d99f599f1d5dc142621b2f74a39d3d6c2fd3d0d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
